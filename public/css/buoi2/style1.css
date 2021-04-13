@@ -1,0 +1,14 @@
+body{
+    background: url(../../img/buoi2/nen-hoa-hong.jpg) right bottom no-repeat fixed,
+                url(../../img/buoi2/binh-hoa.jpg) left 50px no-repeat fixed;
+                font-family: arial;
+}
+.mucchon{
+    background-color: #ed0fa0;
+    color: #ffffff;
+}
+.a{
+    color: #e00fa0;
+    font-style: italic;
+    text-decoration: none;
+}
