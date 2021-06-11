@@ -1,7 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BTController;
+use App\Http\Controllers\MasterController;
+use App\Http\Controllers\FormController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,51 +23,63 @@ use App\Http\Controllers\BTController;
 Route::get('/', function () {
     return view('welcome');
 });
-//bt buôi 2
-Route::get('shopbanhoatuoi', function () {
-    return view('buoi2/bt1');
-});
-Route::get('/bt', function () {
-    return view('buo1/bt1');
-});
-//bt buôi 3
-Route::get('/buoi3/hinh/{cd?}/{cr?}',[BTController::class,'hinhchunhat'])->name("tinh");
-
-//Route::get('/buoi3.hinh/{cd?}/{hv?}',[BTController::class,'hinhvuong'])->name("tinh");
-Route::get('/buoi3/vidu01/{nam?}/{ten?}',[BTController::class,'chucmung'])->name("cauchao");
-Route::get('/buoi3.vidu2/{a?}/{b?}',[BTController::class,'giaiptbac1'])->name("kq");
-
-//buổi 4
-Route::get('/buoi4/form',[BTController::class,'get_xemketqua'])->name("ketqua");
-Route::post('/buoi4/form',[BTController::class,'post_xemketqua'])->name("ketqua");
-
-    //trang tin tức
-Route::get('hay',function (){
-    return view('buoi4.head');
-});
 
 
-//buoi5
-Route::group(['prefix' => '/buoi5'],function() {
-    Route::get('/layout',[BTController::class,'layout']);
-    //tiền điện
-    Route::get("tiendien",[BTController::class,"get_tiendien"])->name("tiendien");
-    Route::post("tiendien",[BTController::class,"post_tiendien"])->name('tiendien');
-    //thidaihoc
-    Route::get("thidaihoc",[BTController::class,"get_thidaihoc"])->name("thidaihoc");
-    Route::post("thidaihoc",[BTController::class,"post_thidaihoc"])->name('thidaihoc');
-    //ketquahoctap
-    Route::get("ketquathi",[BTController::class,"get_ketquathi"])->name('ketquathi');
-    Route::post("ketquathi",[BTController::class,"post_ketquathi"])->name('ketquathi');
-    //tính cạnh huyền
-    Route::get('canhhuyen',[BTController::class,'xemketqua'])->name('canhhuyen');
-    Route::post('canhhuyen',[BTController::class,'xemketqua1'])->name('canhhuyen');
-    //taifile
-    Route::get("taifile",[BTController::class,"get_taifile"])->name("taifile");
-    Route::post("taifile",[BTController::class,"post_taifile"])->name('taifile');
+//fontend
+Route::get('/index',[MasterController::class,'getIndex']);
+Route::get('/producttype/{type}',[MasterController::class,'product_type']);
+Route::get('/product/{id}',[MasterController::class,'product']);
+Route::get('/product/{id}',[MasterController::class,'product']);
+Route::get('/addcart/{id}',[MasterController::class,'addCart']);
+Route::get('/deletecart/{id}',[MasterController::class,'deleteCart']);
+Route::get('/checkout',[MasterController::class,'getcheckout']);
+Route::post('/checkout',[MasterController::class,'postcheckout']);
+Route::get('/contact',[MasterController::class,'getContact']);
+Route::get('/about',[MasterController::class,'getAbout']);
+Route::get('/alert',[MasterController::class,'getAlert']);
+Route::get('/xoahet/{id}',[MasterController::class,'getXoahet']);
+Route::get('/login',[FormController::class,'getLogin']);
+Route::post('/login',[FormController::class,'postLogin']);
+Route::get('/signup',[FormController::class,'getSignup']);
+Route::post('/signup',[FormController::class,'postSignup']);
+Route::get('/dang-xuat',[FormController::class,'getDangxuat']);
+Route::get('/tim-kiem',[FormController::class,'getTimKiem']);
+
+//backend
+
+Route::group(['prefix'=>'admin'],function () {
+    Route::get('layout',[AdminController::class,'admin']);
+    Route::get('login',[AdminController::class,'getLoginAdmin']);
+    Route::post('login',[AdminController::class,'postLoginAdmin']);
+    Route::get('logout',[AdminController::class,'getLogoutAdmin']);
+    Route::get('information',[AdminController::class,'getUserInfo']);
+    Route::get('/listbill',[AdminController::class,"getBills"]);
+    Route::get('/updatebill/{id}',[AdminController::class,"getEditBills"]);
+    Route::post('/updatebill/{id}',[AdminController::class,"postEditBills"]);
+    Route::get('/listCustomer',[AdminController::class,"getCustomer"]);
+    Route::get('/deleteCustomer/{id}',[AdminController::class,"deleteCustomer"]);
+
 });
 
+//typeproduct
+Route::group(['prefix'=>'type'],function () {
+    Route::get('listType',[AdminController::class,'getListType']);
+    Route::get('add',[AdminController::class,'getAdd']);
+    Route::post('add',[AdminController::class,'postAdd']);
+    Route::get('delete/{id}',[AdminController::class,'getDelete']);
+    Route::get('update/{id}',[AdminController::class,'getUpdate']);
+    Route::post('update/{id}',[AdminController::class,'postUpdate']);
+    Route::get('listProduct',[ProductController::class,'getList']);
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+    Route::get('addProduct',[ProductController::class,'getProduct']);
+    Route::post('addProduct',[ProductController::class,'postProduct']);
+    
+     Route::get('deleteProduct/{id}',[ProductController::class,'deleteProduct']);
+    Route::get('updateProduct/{id}',[ProductController::class,'getUpdateProduct']);
+    Route::post('updateProduct/{id}',[ProductController::class,'postUpdateProduct']);
+
+});
+
+
+
+
